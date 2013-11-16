@@ -3,10 +3,10 @@ package app
 
 import com.twitter.conversions.time._
 import com.twitter.finagle.builder.ClientBuilder
-import com.twitter.finagle.thrift.{ThriftClientFramedCodec,ThriftClientRequest}
+import com.twitter.finagle.thrift.{ThriftClientFramedCodec, ThriftClientRequest}
 import com.twitter.util.Future
-
 import hello._
+import org.apache.thrift.protocol.TBinaryProtocol
 
 object ClientApp extends App {
 
@@ -15,14 +15,12 @@ object ClientApp extends App {
     .codec(ThriftClientFramedCodec())
     .hostConnectionLimit(1)
     .build()
-    
-  val helloClient = new HelloService.FinagledClient(helloService)
-  
-  val response: Future[HelloMsg] = helloClient.sayHello(HelloMsg("from Scala"))
-  
-  val result  = response(3 seconds)
-  
-  println(result.name)
-  
-  helloService.release()
-}
+
+  val helloClient = new HelloService$FinagleClient(helloService, new TBinaryProtocol.Factory())
+  helloClient.sayHello(HelloMsg("from Scala")) onSuccess { result =>
+    println(result.name)
+  } ensure {
+    helloService.close()
+  }
+
+} // ClientApp
