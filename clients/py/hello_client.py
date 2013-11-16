@@ -24,6 +24,6 @@ client = HelloService.Client(TBinaryProtocol.TBinaryProtocol(transport))
 transport.open()
 try:
     msg = client.sayHello(HelloMsg(text))
-    print(msg)
+    print(msg.name)
 finally:
     transport.close()
