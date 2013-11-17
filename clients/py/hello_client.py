@@ -13,11 +13,9 @@ from thrift.protocol import TBinaryProtocol
 
 host = 'localhost'
 port = 8001
-text = 'from Python'
-try:
-    text = sys.argv[1]
-except:
-    pass
+text = (' '.join(sys.argv[1:])).strip()
+if not text:
+    text = 'from Python'
 
 transport = TTransport.TFramedTransport(TSocket.TSocket(host, port))
 client = HelloService.Client(TBinaryProtocol.TBinaryProtocol(transport))
