@@ -1,4 +1,5 @@
 import AssemblyKeys._
+import com.twitter.scrooge.ScroogeSBT
 
 name := "hello-finagle"
 
@@ -30,3 +31,5 @@ libraryDependencies ++= Seq(
 mainClass in Global := Some("com.dpederson.app.ServerApp")
 
 assemblySettings
+
+ScroogeSBT.newSettings
