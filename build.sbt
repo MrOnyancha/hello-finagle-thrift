@@ -22,9 +22,9 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "com.twitter" %% "scrooge-core" % "3.8.0",
+  "com.twitter" %% "scrooge-core" % "3.9.0",
   "org.apache.thrift" % "libthrift" % "0.9.1",
-  "com.twitter" %% "finagle-thrift" % "6.5.2",
+  "com.twitter" %% "finagle-thrift" % "6.6.2",
   "org.slf4j" % "slf4j-api" % "1.7.5",
   "org.slf4j" % "slf4j-simple" % "1.7.5"
 )
