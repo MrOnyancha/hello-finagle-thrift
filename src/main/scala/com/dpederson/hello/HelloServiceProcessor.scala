@@ -9,12 +9,18 @@ import org.slf4j.{ Logger, LoggerFactory }
  */
 object HelloServiceProcessor {
 
+  /**
+   * Logger
+   */
   val logger: Logger = LoggerFactory.getLogger("HelloServiceProcessor")
 
+  /**
+   * HelloService implementation.
+   */
   def apply(): HelloService[Future] = new HelloService[Future] {
     override def sayHello(msg: HelloMsg): Future[HelloMsg] = {
-      logger.info(s"Received message: ${msg.name}")
-      Future.value(HelloMsg("Hello, %s!" format msg.name))
+      logger.info(s"Server received message: ${msg.name}")
+      Future.value(HelloMsg(s"Hello, ${msg.name}"))
     }
   }
 

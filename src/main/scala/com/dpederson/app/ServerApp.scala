@@ -7,13 +7,13 @@ import hello._
 import org.apache.thrift.protocol.TBinaryProtocol
 
 /**
- * Start the hello service on port 8001.
+ * Start the hello service server on port 8001.
  */
 object ServerApp extends App {
 
   val protocol = new TBinaryProtocol.Factory()
   val service = new HelloService$FinagleService(HelloServiceProcessor(), protocol)
-  ServerBuilder().bindTo(new java.net.InetSocketAddress(8001))
-    .codec(ThriftServerFramedCodec()).name("hello_server").build(service)
+  ServerBuilder().bindTo(new java.net.InetSocketAddress(8001)).codec(ThriftServerFramedCodec())
+    .name("hello_service").build(service)
 
 } // ServerApp
