@@ -11,6 +11,8 @@ connection.on('error', function(err) {
 
 var msg = new ttypes.HelloMsg({ name: 'from nodejs' });
 
+client.ping();
+
 client.sayHello(msg, function(err, response) {
   if (err) {
     console.error(err);

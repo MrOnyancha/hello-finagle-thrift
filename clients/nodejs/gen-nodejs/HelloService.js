@@ -116,6 +116,62 @@ HelloService_sayHello_result.prototype.write = function(output) {
   return;
 };
 
+HelloService_ping_args = function(args) {
+};
+HelloService_ping_args.prototype = {};
+HelloService_ping_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+HelloService_ping_args.prototype.write = function(output) {
+  output.writeStructBegin('HelloService_ping_args');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+HelloService_ping_result = function(args) {
+};
+HelloService_ping_result.prototype = {};
+HelloService_ping_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+HelloService_ping_result.prototype.write = function(output) {
+  output.writeStructBegin('HelloService_ping_result');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 HelloServiceClient = exports.Client = function(output, pClass) {
     this.output = output;
     this.pClass = pClass;
@@ -159,6 +215,36 @@ HelloServiceClient.prototype.recv_sayHello = function(input,mtype,rseqid) {
   }
   return callback('sayHello failed: unknown result');
 };
+HelloServiceClient.prototype.ping = function(callback) {
+  this._seqid = this.new_seqid();
+  this._reqs[this.seqid()] = callback;
+  this.send_ping();
+};
+
+HelloServiceClient.prototype.send_ping = function() {
+  var output = new this.pClass(this.output);
+  output.writeMessageBegin('ping', Thrift.MessageType.CALL, this.seqid());
+  var args = new HelloService_ping_args();
+  args.write(output);
+  output.writeMessageEnd();
+  return this.output.flush();
+};
+
+HelloServiceClient.prototype.recv_ping = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new HelloService_ping_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  callback(null)
+};
 HelloServiceProcessor = exports.Processor = function(handler) {
   this._handler = handler
 }
@@ -184,6 +270,19 @@ HelloServiceProcessor.prototype.process_sayHello = function(seqid, input, output
   this._handler.sayHello(args.msg, function (err, result) {
     var result = new HelloService_sayHello_result((err != null ? err : {success: result}));
     output.writeMessageBegin("sayHello", Thrift.MessageType.REPLY, seqid);
+    result.write(output);
+    output.writeMessageEnd();
+    output.flush();
+  })
+}
+
+HelloServiceProcessor.prototype.process_ping = function(seqid, input, output) {
+  var args = new HelloService_ping_args();
+  args.read(input);
+  input.readMessageEnd();
+  this._handler.ping(function (err, result) {
+    var result = new HelloService_ping_result((err != null ? err : {success: result}));
+    output.writeMessageBegin("ping", Thrift.MessageType.REPLY, seqid);
     result.write(output);
     output.writeMessageEnd();
     output.flush();

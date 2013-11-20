@@ -12,6 +12,8 @@ begin
   client = HelloService::Client.new(protocol)
   transport.open()
 
+  client.ping()
+
   msg = HelloMsg.new()
   msg.name = "from Ruby"
   msg = client.sayHello(msg)

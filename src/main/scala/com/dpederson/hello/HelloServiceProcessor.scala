@@ -22,6 +22,10 @@ object HelloServiceProcessor {
       logger.info(s"Server received message: ${msg.name}")
       Future.value(HelloMsg(s"Hello, ${msg.name}"))
     }
+    override def ping(): Future[Unit] = {
+      logger.info("ping called")
+      Future.value()
+    }
   }
 
 } // HelloServiceProcessor

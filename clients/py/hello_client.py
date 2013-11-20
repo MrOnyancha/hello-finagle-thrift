@@ -21,6 +21,7 @@ transport = TTransport.TFramedTransport(TSocket.TSocket(host, port))
 client = HelloService.Client(TBinaryProtocol.TBinaryProtocol(transport))
 transport.open()
 try:
+    client.ping()
     msg = client.sayHello(HelloMsg(text))
     print(msg.name)
 finally:
