@@ -3,9 +3,7 @@
 $:.push('gen-rb')
 
 require 'rubygems'
-require 'thrift'
 require 'hello_service'
-require 'hello_types'
 
 begin
   socket = Thrift::Socket.new('localhost', 8001)
