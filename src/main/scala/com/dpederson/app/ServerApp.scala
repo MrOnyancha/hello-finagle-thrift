@@ -13,7 +13,9 @@ object ServerApp extends App {
 
   val protocol = new TBinaryProtocol.Factory()
   val service = new HelloService$FinagleService(HelloServiceProcessor(), protocol)
-  ServerBuilder().bindTo(new java.net.InetSocketAddress(8001)).codec(ThriftServerFramedCodec())
-    .name("hello_service").build(service)
+  val serverHost = new java.net.InetSocketAddress(8001)
+  ZooKeeperHelper.cluster("/helloService").join(serverHost)
+  ServerBuilder().bindTo(serverHost).codec(ThriftServerFramedCodec())
+    .name("helloService").build(service)
 
 } // ServerApp

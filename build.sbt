@@ -25,13 +25,19 @@ libraryDependencies ++= Seq(
   "com.twitter" %% "scrooge-core" % "3.9.0",
   "org.apache.thrift" % "libthrift" % "0.9.1",
   "com.twitter" %% "finagle-thrift" % "6.6.2",
-  "org.slf4j" % "slf4j-api" % "1.7.5",
-  "org.slf4j" % "slf4j-simple" % "1.7.5"
+  "com.twitter" %% "finagle-serversets" % "6.6.2"
 )
 
 // Assembly settings
 mainClass in Global := Some("com.dpederson.app.ServerApp")
 
 assemblySettings
+
+mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
+  {
+    case "com/twitter/common/args/apt/cmdline.arg.info.txt.1" => MergeStrategy.first
+    case x => old(x)
+  }
+}
 
 ScroogeSBT.newSettings
