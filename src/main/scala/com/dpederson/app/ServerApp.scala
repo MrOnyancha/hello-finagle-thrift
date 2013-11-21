@@ -7,13 +7,14 @@ import hello._
 import org.apache.thrift.protocol.TBinaryProtocol
 
 /**
- * Start the hello service server on port 8001.
+ * Start the hello service server on a given port.
  */
 object ServerApp extends App {
 
   val protocol = new TBinaryProtocol.Factory()
   val service = new HelloService$FinagleService(HelloServiceProcessor(), protocol)
-  val serverHost = new java.net.InetSocketAddress(8001)
+  val port = if (args.length > 0) args(0).toInt else 8001
+  val serverHost = new java.net.InetSocketAddress(port)
   ZooKeeperHelper.cluster("/helloService").join(serverHost)
   ServerBuilder().bindTo(serverHost).codec(ThriftServerFramedCodec())
     .name("helloService").build(service)
