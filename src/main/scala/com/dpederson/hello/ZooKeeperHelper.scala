@@ -16,7 +16,8 @@ object ZooKeeperHelper {
    */
   def cluster(serviceName: String): ZookeeperServerSetCluster = {
     val sessionTimeout = Amount.of(10, Time.SECONDS)
-    val zookeeperClient = new ZooKeeperClient(sessionTimeout, new InetSocketAddress(2181))
+    val zooKeeperHost = new InetSocketAddress("localhost", 2181)
+    val zookeeperClient = new ZooKeeperClient(sessionTimeout, zooKeeperHost)
     val serverSet = new ServerSetImpl(zookeeperClient, serviceName)
     new ZookeeperServerSetCluster(serverSet)
   }
