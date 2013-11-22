@@ -14,9 +14,12 @@ object ClientApp extends App {
   val helloService = ClientBuilder().codec(ThriftClientFramedCodec())
     .cluster(ZooKeeperHelper.cluster("/helloService")).hostConnectionLimit(1).build()
   val helloClient = new HelloService$FinagleClient(helloService, new TBinaryProtocol.Factory())
+  val name = if (args.length > 0) args(0) else "from Scala"
   helloClient.ping()
-  helloClient.sayHello(HelloMsg("from Scala")) onSuccess { result =>
+  helloClient.sayHello(HelloMsg(name)) onSuccess { result =>
     println(s"Client received response message: ${result.name}")
+  } onFailure { ex =>
+    ex.printStackTrace()
   } ensure {
     helloService.close()
   }
