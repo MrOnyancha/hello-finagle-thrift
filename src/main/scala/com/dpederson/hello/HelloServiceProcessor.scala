@@ -28,7 +28,7 @@ object HelloServiceProcessor {
     // The ping service function implementation
     override def ping(): Future[Unit] = {
       logger.info("ping called")
-      Future.value()
+      Future.Unit
     }
 
   } // apply
