@@ -1,8 +1,8 @@
 package com.dpederson
 package hello
 
+import com.twitter.logging.Logger
 import com.twitter.util.Future
-import org.slf4j.{ Logger, LoggerFactory }
 
 /**
  * The HelloService implementation.
@@ -12,20 +12,25 @@ object HelloServiceProcessor {
   /**
    * Logger
    */
-  val logger: Logger = LoggerFactory.getLogger("HelloServiceProcessor")
+  val logger = Logger.get(getClass)
 
   /**
    * HelloService implementation.
    */
   def apply(): HelloService[Future] = new HelloService[Future] {
+
+    // The sayHello service function implementation
     override def sayHello(msg: HelloMsg): Future[HelloMsg] = {
       logger.info(s"Server received message: ${msg.name}")
       Future.value(HelloMsg(s"Hello, ${msg.name}"))
     }
+
+    // The ping service function implementation
     override def ping(): Future[Unit] = {
       logger.info("ping called")
       Future.value()
     }
-  }
+
+  } // apply
 
 } // HelloServiceProcessor

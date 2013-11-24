@@ -12,7 +12,7 @@ import org.apache.thrift.protocol.TBinaryProtocol
 object ClientApp extends App {
 
   val helloService = ClientBuilder().codec(ThriftClientFramedCodec())
-    .cluster(ZooKeeperHelper.cluster("/helloService")).hostConnectionLimit(1).build()
+    .cluster(ZooKeeperHelper.cluster("/helloService")).hostConnectionLimit(2).build()
   val helloClient = new HelloService$FinagleClient(helloService, new TBinaryProtocol.Factory())
   val name = if (args.length > 0) args(0) else "from Scala"
   val callServices = helloClient.ping() flatMap { _ =>
