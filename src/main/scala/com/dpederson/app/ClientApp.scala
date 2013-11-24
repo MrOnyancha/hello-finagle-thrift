@@ -15,8 +15,10 @@ object ClientApp extends App {
     .cluster(ZooKeeperHelper.cluster("/helloService")).hostConnectionLimit(1).build()
   val helloClient = new HelloService$FinagleClient(helloService, new TBinaryProtocol.Factory())
   val name = if (args.length > 0) args(0) else "from Scala"
-  helloClient.ping()
-  helloClient.sayHello(HelloMsg(name)) onSuccess { result =>
+  val callServices = helloClient.ping() flatMap { _ =>
+    helloClient.sayHello(HelloMsg(name))
+  }
+  callServices onSuccess { result =>
     println(s"Client received response message: ${result.name}")
   } onFailure { ex =>
     ex.printStackTrace()
