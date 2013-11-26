@@ -13,9 +13,10 @@ path = z.get_children(:path => "/helloService")
 path[:children].each { |child|
   node = z.get(:path => "/helloService/#{child}")
   data = JSON.parse(node[:data])
-  host = data['serviceEndpoint']['host']
+  #host = data['serviceEndpoint']['host']
   port = data['serviceEndpoint']['port'].to_i
 }
+z.close()
 
 begin
   socket = Thrift::Socket.new(host, port)
