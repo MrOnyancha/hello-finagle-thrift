@@ -1,5 +1,5 @@
 #!/bin/bash
-jarfile=target/scala-2.10/hello-finagle-assembly-0.1-SNAPSHOT.jar
+jarfile=bin/hello-finagle-assembly-0.1-SNAPSHOT.jar
 
 mkdir -p logs
 java -ea -server -Xss8m -Xms1g -Xmx1g \

@@ -4,3 +4,4 @@ target
 sbt-launch.jar
 *.pyc
 logs
+bin
