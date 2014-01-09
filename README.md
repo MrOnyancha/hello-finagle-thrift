@@ -1,4 +1,4 @@
-hello-finagle
+hello-finagle-thrift
 =============
 
-A hello world app written in Scala using Finagle and Thrift.
+A hello world app written in Scala using Finagle, Thrift and Zookeeper.
