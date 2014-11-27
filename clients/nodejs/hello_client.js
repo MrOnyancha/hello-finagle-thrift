@@ -11,15 +11,20 @@ connection.on('error', function(err) {
 
 var msg = new ttypes.HelloMsg({ name: 'from nodejs' });
 
-client.ping();
-
-client.sayHello(msg, function(err, response) {
-  if (err) {
+client.ping(function(_err) {
+  if (_err) {
     console.error(err);
     process.exit(1);
   } else {
-    console.log(response.name);
-    process.exit(0);
+    client.sayHello(msg, function(err, response) {
+      if (err) {
+        console.error(err);
+        process.exit(1);
+      } else {
+        console.log(response.name);
+        process.exit(0);
+      }
+      connection.end();
+    });
   }
-  connection.end();
 });
