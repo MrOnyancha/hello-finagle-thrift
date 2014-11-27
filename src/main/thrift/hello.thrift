@@ -1,4 +1,4 @@
-namespace java com.dpederson.hello
+namespace java zdavep.hello
 
 struct HelloMsg {
   1: required string name;

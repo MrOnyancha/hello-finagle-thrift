@@ -5,16 +5,11 @@ name := "hello-finagle"
 
 version := "0.1-SNAPSHOT"
 
-organization := "com.dpederson"
+organization := "zdavep"
 
-scalaVersion := "2.10.2"
+scalaVersion := "2.10.4"
 
-autoCompilerPlugins := true
-
-addCompilerPlugin("org.scala-lang.plugins" % "continuations" % "2.10.2")
-
-scalacOptions ++= Seq(
-  "-unchecked", "-deprecation", "-feature", "-P:continuations:enable", "-language:higherKinds")
+scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-language:higherKinds")
 
 resolvers ++= Seq(
   "central.maven" at "http://central.maven.org/maven2",
@@ -22,14 +17,14 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "com.twitter" %% "scrooge-core" % "3.9.0",
-  "org.apache.thrift" % "libthrift" % "0.9.1",
-  "com.twitter" %% "finagle-thrift" % "6.6.2",
-  "com.twitter" %% "finagle-serversets" % "6.6.2"
+  "com.twitter" %% "scrooge-core" % "3.17.0",
+  "org.apache.thrift" % "libthrift" % "0.9.2",
+  "com.twitter" %% "finagle-thrift" % "6.22.0",
+  "com.twitter" %% "finagle-serversets" % "6.22.0"
 )
 
 // Assembly settings
-mainClass in Global := Some("com.dpederson.app.ServerApp")
+mainClass in Global := Some("zdavep.app.ServerApp")
 
 assemblySettings
 
