@@ -1,9 +1,9 @@
 package zdavep
 package hello
 
+import collection.JavaConverters._
 import com.twitter.common.quantity.{ Amount, Time }
-import com.twitter.common.zookeeper.{ ServerSets, ServerSetImpl, ZooKeeperClient }
-import com.twitter.finagle.zookeeper.ZookeeperServerSetCluster
+import com.twitter.common.zookeeper.{ ServerSet, ServerSetImpl, ZooKeeperClient }
 import java.net.InetSocketAddress
 
 /**
@@ -14,12 +14,19 @@ object ZooKeeperHelper {
   /**
    * Zookeeper client configuration helper.
    */
-  def cluster(serviceName: String): ZookeeperServerSetCluster = {
+  private[this]
+  def cluster(serviceName: String): ServerSet = {
     val sessionTimeout = Amount.of(10, Time.SECONDS)
     val zooKeeperHost = new InetSocketAddress("localhost", 2181)
     val zooKeeperClient = new ZooKeeperClient(sessionTimeout, zooKeeperHost)
-    val serverSet = new ServerSetImpl(zooKeeperClient, serviceName)
-    new ZookeeperServerSetCluster(serverSet)
+    new ServerSetImpl(zooKeeperClient, serviceName)
+  }
+
+  /**
+   * Join a ZooKeeper cluster.
+   */
+  def join(serviceName: String, serverHost: InetSocketAddress): Unit = {
+    cluster(serviceName).join(serverHost, Map.empty[String, InetSocketAddress].asJava)
   }
 
 } // ZooKeeperHelper

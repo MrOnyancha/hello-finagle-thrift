@@ -24,6 +24,6 @@ object ServerApp extends App {
     .name(serviceName).build(service)
 
   logger.info("Joining ZooKeeper cluster...")
-  ZooKeeperHelper.cluster(serviceName).join(serverHost)
+  ZooKeeperHelper.join(serviceName, serverHost)
 
 } // ServerApp
