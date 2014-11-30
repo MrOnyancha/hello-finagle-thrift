@@ -12,7 +12,7 @@ import org.apache.thrift.protocol.TBinaryProtocol
 object ClientApp extends App {
 
   val helloService = ClientBuilder().codec(ThriftClientFramedCodec())
-    .dest("zk!localhost:2181!/helloService/api/v1").hostConnectionLimit(2).build()
+    .dest("zk!localhost:2181!/zdavep/hello/v1").hostConnectionLimit(2).build()
   val helloClient = new HelloService$FinagleClient(helloService, new TBinaryProtocol.Factory())
   val name = if (args.length > 0) args(0) else "from Scala"
   val callServices = helloClient.ping() flatMap { _ =>
