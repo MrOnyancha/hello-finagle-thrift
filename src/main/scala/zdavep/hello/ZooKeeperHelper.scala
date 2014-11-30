@@ -26,7 +26,7 @@ object ZooKeeperHelper {
    * Join a ZooKeeper cluster.
    */
   def join(serviceName: String, serverHost: InetSocketAddress): Unit = {
-    cluster(serviceName).join(serverHost, Map.empty[String, InetSocketAddress].asJava)
+    cluster(serviceName).join(serverHost, Map.empty[String, InetSocketAddress].asJava, 0)
   }
 
 } // ZooKeeperHelper
