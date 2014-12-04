@@ -1,19 +1,37 @@
 var thrift = require('thrift')
   , ttypes = require('./gen-nodejs/hello_types')
-  , HelloService = require('./gen-nodejs/HelloService.js')
-  , host = 'localhost'
-  , port = 5555;
+  , HelloService = require('./gen-nodejs/HelloService.js');
 
-var connection = thrift.createConnection(host, port, {transport: thrift.TFramedTransport});
+HelloClient = module.exports.HelloClient = function(args) {
+  this.host = null;
+  this.port = null;
+  if (args) {
+    if (args.host !== undefined) {
+      this.host = args.host;
+    } else {
+      throw 'Required field host is unset!';
+    }
+    if (args.port !== undefined) {
+      this.port = args.port;
+    } else {
+      throw 'Required field port is unset!';
+    }
+  }
+  this.connection = thrift.createConnection(this.host, this.port, {transport: thrift.TFramedTransport});
+  this.connection.on('error', function(err) {
+    throw err;
+  });
+};
 
-connection.on('error', function(err) {
-  console.log(err);
-});
+HelloClient.prototype = {};
+HelloClient.prototype.close = function() {
+  //console.log('close');
+  this.connection.end(); 
+};
 
-exports.close = function() { connection.end(); }
-
-exports.sayHello = function(name, callback) {
-  var client = thrift.createClient(HelloService, connection);
+HelloClient.prototype.sayHello = function(name, callback) {
+  //console.log('sayHello');
+  var client = thrift.createClient(HelloService, this.connection);
   client.ping(function(ping_err) {
     if (ping_err) {
       return callback(ping_err);
@@ -23,4 +41,4 @@ exports.sayHello = function(name, callback) {
       });
     }
   });
-}
+};
