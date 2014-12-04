@@ -4,24 +4,22 @@ var thrift = require('thrift')
   , host = 'localhost'
   , port = 5555;
 
+var connection = thrift.createConnection(host, port, {transport: thrift.TFramedTransport});
+
+connection.on('error', function(err) {
+  console.log(err);
+});
+
+exports.close = function() { connection.end(); }
+
 exports.sayHello = function(name, callback) {
-  var connection = thrift.createConnection(host, port, {transport: thrift.TFramedTransport});
   var client = thrift.createClient(HelloService, connection);
-  connection.on('error', function(err) {
-    return callback(err);
-  });
-  client.ping(function(_err) {
-    if (_err) {
-      return callback(_err);
+  client.ping(function(ping_err) {
+    if (ping_err) {
+      return callback(ping_err);
     } else {
-      var msg = new ttypes.HelloMsg({ name: name });
-      client.sayHello(msg, function(err2, response) {
-      if (err2) {
-          return callback(err2);
-      } else {
-          return callback(null, response);
-      }
-      connection.end();
+      client.sayHello(new ttypes.HelloMsg({name:name}), function(err, response) {
+        return err != null ? callback(err) : callback(null, response);
       });
     }
   });
