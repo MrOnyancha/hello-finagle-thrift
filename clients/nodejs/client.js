@@ -25,12 +25,10 @@ HelloClient = module.exports.HelloClient = function(args) {
 
 HelloClient.prototype = {};
 HelloClient.prototype.close = function() {
-  //console.log('close');
   this.connection.end(); 
 };
 
 HelloClient.prototype.sayHello = function(name, callback) {
-  //console.log('sayHello');
   var client = thrift.createClient(HelloService, this.connection);
   client.ping(function(ping_err) {
     if (ping_err) {
