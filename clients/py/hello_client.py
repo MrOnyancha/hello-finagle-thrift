@@ -11,8 +11,7 @@ from thrift.transport import TTransport
 from thrift.transport import TSocket
 from thrift.protocol import TBinaryProtocol
 
-host = 'localhost'
-port = 8001
+host, port = 'localhost', 5555
 text = (' '.join(sys.argv[1:])).strip()
 if not text:
     text = 'from Python'
@@ -23,6 +22,6 @@ transport.open()
 try:
     client.ping()
     msg = client.sayHello(HelloMsg(text))
-    print(msg.name)
+    print(msg)
 finally:
     transport.close()
