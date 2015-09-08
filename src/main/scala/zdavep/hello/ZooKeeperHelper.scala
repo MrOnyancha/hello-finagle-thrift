@@ -25,5 +25,5 @@ object ZooKeeperHelper {
    * Register a serivce with ZooKeeper.
    */
   def join(name: String, host: InetSocketAddress): ServerSet.EndpointStatus =
-    serverSet(name).join(host, Map.empty[String, InetSocketAddress].asJava)
+    serverSet(name).join(host, Map.empty[String, InetSocketAddress].asJava, 0)
 }

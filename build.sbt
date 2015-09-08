@@ -8,11 +8,9 @@ val finagleVersion = "6.28.0"
 resolvers += "twitter" at "https://maven.twttr.com/"
 
 libraryDependencies ++= Seq(
-  "com.twitter" %% "finagle-core" % finagleVersion,
-  "com.twitter" %% "finagle-thrift" % finagleVersion,
+  "com.twitter" %% "finagle-thriftmux" % finagleVersion,
   "com.twitter" %% "finagle-serversets" % finagleVersion,
-  "com.twitter" %% "scrooge-core" % "4.0.0",
-  "org.apache.thrift" % "libthrift" % "0.9.2"
+  "com.twitter" %% "scrooge-core" % "4.0.0"
 )
 
 scalacOptions ++= Seq(

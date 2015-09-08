@@ -1,7 +1,7 @@
 package zdavep
 package app
 
-import com.twitter.finagle.Thrift
+import com.twitter.finagle.ThriftMux
 import com.twitter.util.Await
 import org.slf4j.LoggerFactory
 import hello._
@@ -19,7 +19,7 @@ object ServerApp extends App {
   val serverHost = new java.net.InetSocketAddress(port)
 
   logger.info(s"Starting ${name} server...")
-  val server = Thrift.serveIface(serverHost, HelloServiceProcessor())
+  val server = ThriftMux.server.serveIface(serverHost, HelloServiceProcessor())
 
   logger.info("Joining ZooKeeper cluster...")
   val _ = ZooKeeperHelper.join(name, serverHost)
