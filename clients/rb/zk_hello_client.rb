@@ -8,15 +8,15 @@ require 'zookeeper'
 require 'json'
 
 host, port = 'localhost', 8001
-z = Zookeeper.new("localhost:2181")
-path = z.get_children(:path => "/zdavep/hello/v1")
+zk = Zookeeper.new("localhost:2181")
+path = zk.get_children(:path => "/zdavep/hello/v1")
 path[:children].each { |child|
-  node = z.get(:path => "/zdavep/hello/v1/#{child}")
+  node = zk.get(:path => "/zdavep/hello/v1/#{child}")
   data = JSON.parse(node[:data])
-  #host = data['serviceEndpoint']['host']
+  host = data['serviceEndpoint']['host']
   port = data['serviceEndpoint']['port'].to_i
 }
-z.close()
+zk.close()
 
 begin
   socket = Thrift::Socket.new(host, port)
@@ -29,8 +29,8 @@ begin
 
   msg = HelloMsg.new()
   msg.name = "from Ruby"
-  msg = client.sayHello(msg)
-  puts msg.name
+  reply = client.sayHello(msg)
+  puts reply.name
 
   transport.close()
 

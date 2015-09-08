@@ -6,3 +6,4 @@ sbt-launch.jar
 logs
 bin
 .DS_Store
+.idea

@@ -18,7 +18,7 @@ object ServerApp extends App {
   val port = if (args.length > 0) args(0).toInt else defPort
   val serverHost = new java.net.InetSocketAddress(port)
 
-  logger.info(s"Starting ${name} server...")
+  logger.info(s"Starting $name server...")
   val server = ThriftMux.server.serveIface(serverHost, HelloServiceProcessor())
 
   logger.info("Joining ZooKeeper cluster...")

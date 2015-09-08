@@ -1,9 +1,9 @@
-The following gems were installed to run this code (ruby1.8.7)
+The following gems are required for this client to work.
 
-daemons (1.1.9)
-eventmachine (1.0.3)
-rack (1.5.2)
-thin (1.6.1)
-thrift (0.9.1)
-json (1.8.1)
-zookeeper (1.4.7)
+daemons
+eventmachine
+rack
+thin
+thrift
+json
+zookeeper
