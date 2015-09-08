@@ -9,9 +9,9 @@ require 'json'
 
 host, port = 'localhost', 8001
 z = Zookeeper.new("localhost:2181")
-path = z.get_children(:path => "/helloService")
+path = z.get_children(:path => "/zdavep/hello/v1")
 path[:children].each { |child|
-  node = z.get(:path => "/helloService/#{child}")
+  node = z.get(:path => "/zdavep/hello/v1/#{child}")
   data = JSON.parse(node[:data])
   #host = data['serviceEndpoint']['host']
   port = data['serviceEndpoint']['port'].to_i
