@@ -19,11 +19,10 @@ object ClientApp extends App {
     helloClient.sayHello(HelloMsg(name))
   }
   callServices onSuccess { result =>
-    println(s"Client received response message: ${result.name}")
+    print(s"Client received message: ${result.name}\n")
   } onFailure { ex =>
     ex.printStackTrace()
   } ensure {
-    helloService.close()
+    val _ = helloService.close()
   }
-
-} // ClientApp
+}

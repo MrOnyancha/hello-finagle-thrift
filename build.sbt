@@ -1,38 +1,48 @@
-import AssemblyKeys._
-import com.twitter.scrooge.ScroogeSBT
-
-name := "hello-finagle"
-
-version := "0.1-SNAPSHOT"
-
+name := "hello-finagle-thrift"
+version := "0.2"
 organization := "zdavep"
+scalaVersion := "2.11.7"
 
-scalaVersion := "2.10.4"
+val finagleVersion = "6.28.0"
 
-scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-language:higherKinds")
-
-resolvers ++= Seq(
-  "central.maven" at "http://central.maven.org/maven2",
-  "twitter" at "http://maven.twttr.com/"
-)
+resolvers += "twitter" at "https://maven.twttr.com/"
 
 libraryDependencies ++= Seq(
-  "com.twitter" %% "scrooge-core" % "3.17.0",
-  "org.apache.thrift" % "libthrift" % "0.9.2",
-  "com.twitter" %% "finagle-thrift" % "6.22.0",
-  "com.twitter" %% "finagle-serversets" % "6.22.0"
+  "com.twitter" %% "finagle-core" % finagleVersion,
+  "com.twitter" %% "finagle-thrift" % finagleVersion,
+  "com.twitter" %% "finagle-serversets" % finagleVersion,
+  "com.twitter" %% "scrooge-core" % "4.0.0",
+  "org.apache.thrift" % "libthrift" % "0.9.2"
 )
 
-// Assembly settings
+scalacOptions ++= Seq(
+  "-encoding", "UTF-8",
+  "-feature",
+  "-language:_",
+  "-unchecked",
+  "-Xlint:_",
+  "-Xfuture",
+  "-Ywarn-dead-code",
+  "-Yno-adapted-args",
+  "-Ywarn-numeric-widen",
+  "-Ywarn-unused-import",
+  "-Ywarn-value-discard"
+)
+
 mainClass in Global := Some("zdavep.app.ServerApp")
 
-assemblySettings
+assemblyJarName in assembly := s"${name.value}-${version.value}.jar"
+
+addCommandAlias("dist", ";clean;compile;scalastyle;assembly")
 
 mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
   {
     case "com/twitter/common/args/apt/cmdline.arg.info.txt.1" => MergeStrategy.first
+	case "org/slf4j/impl/StaticLoggerBinder.class" => MergeStrategy.first
+	case "org/slf4j/impl/StaticMDCBinder.class" => MergeStrategy.first
+	case "org/slf4j/impl/StaticMarkerBinder.class" => MergeStrategy.first
     case x => old(x)
   }
 }
 
-ScroogeSBT.newSettings
+com.twitter.scrooge.ScroogeSBT.newSettings

@@ -1,5 +1,5 @@
-libraryDependencies <+= (sbtVersion)("org.scala-sbt" % "scripted-plugin" % _)
+addSbtPlugin("com.twitter" %% "scrooge-sbt-plugin" % "3.14.1")
 
-addSbtPlugin("com.twitter" %% "scrooge-sbt-plugin" % "3.9.0")
+addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.13.0")
 
-addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.9.2")
+addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "0.7.0")

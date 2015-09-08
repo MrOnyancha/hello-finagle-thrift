@@ -1,12 +1,15 @@
 #!/bin/bash
-jarfile=bin/hello-finagle-assembly-0.1-SNAPSHOT.jar
+jarfile=target/scala-2.11/hello-finagle-thrift-0.2.jar
 
 mkdir -p logs
-java -ea -server -Xss8m -Xms1g -Xmx1g \
-  -XX:+UseG1GC \
-  -XX:MaxPermSize=256m \
+java -Djava.net.preferIPv4Stack=true -ea -server -Xmn2g -Xms6g -Xmx6g \
+  -XX:+AggressiveOpts \
+  -XX:+UseParNewGC \
+  -XX:+UseConcMarkSweepGC \
+  -XX:+CMSParallelRemarkEnabled \
+  -XX:+CMSClassUnloadingEnabled \
   -XX:+DisableExplicitGC \
   -jar $jarfile "$@" >> logs/application.log 2>&1 &
 
-applicationPID=$!
-echo $applicationPID > logs/application.pid
+appPID=$!
+echo $appPID > logs/application.pid

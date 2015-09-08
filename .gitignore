@@ -5,3 +5,4 @@ sbt-launch.jar
 *.pyc
 logs
 bin
+.DS_Store
