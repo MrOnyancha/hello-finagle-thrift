@@ -28,15 +28,20 @@ HelloClient.prototype.close = function() {
   this.connection.end(); 
 };
 
-HelloClient.prototype.sayHello = function(name, callback) {
+HelloClient.prototype.ping = function(callback) {
   var client = thrift.createClient(HelloService, this.connection);
   client.ping(function(ping_err) {
     if (ping_err) {
       return callback(ping_err);
     } else {
-      client.sayHello(new ttypes.HelloMsg({name:name}), function(err, response) {
-        return err != null ? callback(err) : callback(null, response);
-      });
+      return callback(null, 'ok');
     }
+  });
+};
+
+HelloClient.prototype.sayHello = function(name, callback) {
+  var client = thrift.createClient(HelloService, this.connection);
+  client.sayHello(new ttypes.HelloMsg({name:name}), function(err, response) {
+    return err != null ? callback(err) : callback(null, response);
   });
 };
