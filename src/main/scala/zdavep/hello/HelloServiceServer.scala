@@ -17,7 +17,7 @@ object HelloServiceServer extends App {
   val serverHost = new java.net.InetSocketAddress(port)
 
   logger.info("Starting HelloService server...")
-  val server = ThriftMux.server.serveIface(serverHost, HelloServiceV1())
+  val server = ThriftMux.server.serveIface(serverHost, HelloServiceImpl())
 
   logger.info("Joining ZooKeeper cluster...")
   val _ = ZooKeeperHelper.join(path, serverHost)

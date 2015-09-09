@@ -27,7 +27,7 @@ scalacOptions ++= Seq(
   "-Ywarn-value-discard"
 )
 
-mainClass in Global := Some("zdavep.app.ServerApp")
+mainClass in Global := Some("zdavep.hello.HelloServiceServer")
 
 assemblyJarName in assembly := s"${name.value}-${version.value}.jar"
 

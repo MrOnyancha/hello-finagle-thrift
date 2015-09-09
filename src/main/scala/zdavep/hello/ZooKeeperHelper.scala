@@ -1,5 +1,4 @@
-package zdavep
-package hello
+package zdavep.hello
 
 import collection.JavaConverters._
 import com.twitter.common.quantity.{Amount, Time}
