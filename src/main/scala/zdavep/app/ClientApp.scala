@@ -14,17 +14,17 @@ object ClientApp extends App {
   val logger = LoggerFactory.getLogger(getClass)
 
   val name = if (args.length > 0) args(0) else "from Scala"
-  val helloClient =
-    ThriftMux.client.newIface[HelloService.FutureIface]("zk!localhost:2181!/zdavep/hello/v1")
+  val dest = "zk!localhost:2181!/zdavep/hello/v1"
+  val helloClient = ThriftMux.client.newIface[HelloService.FutureIface](dest)
   val callServices = helloClient.ping() flatMap { _ =>
     helloClient.sayHello(HelloMsg(name))
   }
 
-  callServices onSuccess { result =>
-    logger.info(s"Client received message: ${result.name}\n")
+  callServices onSuccess { msg =>
+    logger.info(s"Client received message: ${msg.name}\n")
   } onFailure { ex =>
     logger.error("Error calling service", ex)
   }
 
-  val _ = Await.result(callServices) // Don't do this in PROD
+  val _ = Await.ready(callServices)
 }

@@ -36,9 +36,9 @@ addCommandAlias("dist", ";clean;compile;scalastyle;assembly")
 mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
   {
     case "com/twitter/common/args/apt/cmdline.arg.info.txt.1" => MergeStrategy.first
-	case "org/slf4j/impl/StaticLoggerBinder.class" => MergeStrategy.first
-	case "org/slf4j/impl/StaticMDCBinder.class" => MergeStrategy.first
-	case "org/slf4j/impl/StaticMarkerBinder.class" => MergeStrategy.first
+    case "org/slf4j/impl/StaticLoggerBinder.class" => MergeStrategy.first
+    case "org/slf4j/impl/StaticMDCBinder.class" => MergeStrategy.first
+    case "org/slf4j/impl/StaticMarkerBinder.class" => MergeStrategy.first
     case x => old(x)
   }
 }

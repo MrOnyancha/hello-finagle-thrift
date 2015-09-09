@@ -16,14 +16,16 @@ object ZooKeeperHelper {
   private val zkHost = "localhost"
   private val zkPort = 2181
   private val zooKeeperHost = new InetSocketAddress(zkHost, zkPort)
+  private val empty = Map.empty[String, InetSocketAddress].asJava
+  private val shard = 0
 
   // Create server set
-  private def serverSet(name: String): ServerSet = new ServerSetImpl(
-    new ZooKeeperClient(Amount.of(timeout, Time.SECONDS), zooKeeperHost), name)
+  private def serverSet(path: String): ServerSet = new ServerSetImpl(
+    new ZooKeeperClient(Amount.of(timeout, Time.SECONDS), zooKeeperHost), path)
 
   /**
    * Register a serivce with ZooKeeper.
    */
-  def join(name: String, host: InetSocketAddress): ServerSet.EndpointStatus =
-    serverSet(name).join(host, Map.empty[String, InetSocketAddress].asJava, 0)
+  def join(path: String, host: InetSocketAddress): ServerSet.EndpointStatus =
+    serverSet(path).join(host, empty, shard)
 }

@@ -14,15 +14,15 @@ object ServerApp extends App {
   val logger = LoggerFactory.getLogger(getClass)
 
   val defPort = 5555
-  val name = "/zdavep/hello/v1"
+  val path = "/zdavep/hello/v1"
   val port = if (args.length > 0) args(0).toInt else defPort
   val serverHost = new java.net.InetSocketAddress(port)
 
-  logger.info(s"Starting $name server...")
+  logger.info("Starting HelloService server...")
   val server = ThriftMux.server.serveIface(serverHost, HelloServiceProcessor())
 
   logger.info("Joining ZooKeeper cluster...")
-  val _ = ZooKeeperHelper.join(name, serverHost)
+  val _ = ZooKeeperHelper.join(path, serverHost)
 
   logger.info(s"Server ready!")
   Await.ready(server)
