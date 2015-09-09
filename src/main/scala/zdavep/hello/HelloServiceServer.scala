@@ -1,15 +1,13 @@
-package zdavep
-package app
+package zdavep.hello
 
 import com.twitter.finagle.ThriftMux
 import com.twitter.util.Await
 import org.slf4j.LoggerFactory
-import hello._
 
 /**
  * Start the hello service server on a given port.
  */
-object ServerApp extends App {
+object HelloServiceServer extends App {
 
   val logger = LoggerFactory.getLogger(getClass)
 
@@ -19,7 +17,7 @@ object ServerApp extends App {
   val serverHost = new java.net.InetSocketAddress(port)
 
   logger.info("Starting HelloService server...")
-  val server = ThriftMux.server.serveIface(serverHost, HelloServiceProcessor())
+  val server = ThriftMux.server.serveIface(serverHost, HelloServiceV1())
 
   logger.info("Joining ZooKeeper cluster...")
   val _ = ZooKeeperHelper.join(path, serverHost)

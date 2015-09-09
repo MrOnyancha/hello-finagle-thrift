@@ -1,15 +1,13 @@
-package zdavep
-package app
+package zdavep.hello
 
 import com.twitter.finagle.ThriftMux
 import com.twitter.util.Await
-import hello._
 import org.slf4j.LoggerFactory
 
 /**
  * Client app - uses ZooKeeper to find and call the hello service.
  */
-object ClientApp extends App {
+object HelloServiceClient extends App {
 
   val logger = LoggerFactory.getLogger(getClass)
 

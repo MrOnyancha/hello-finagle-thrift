@@ -1,5 +1,4 @@
-package zdavep
-package hello
+package zdavep.hello
 
 import com.twitter.util.Future
 import org.slf4j.LoggerFactory
@@ -7,7 +6,7 @@ import org.slf4j.LoggerFactory
 /**
  * The HelloService implementation.
  */
-object HelloServiceProcessor {
+object HelloServiceImpl {
 
   val logger = LoggerFactory.getLogger(getClass)
 
