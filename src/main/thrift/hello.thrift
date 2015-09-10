@@ -1,7 +1,7 @@
 namespace java zdavep.hello
 
 struct HelloMsg {
-  1: required string name;
+  1: required string name
 }
 
 service HelloService {
