@@ -32,6 +32,8 @@ begin
   reply = client.sayHello(msg)
   puts reply.name
 
+  client.zip()
+
   transport.close()
 
 rescue Thrift::Exception => tx

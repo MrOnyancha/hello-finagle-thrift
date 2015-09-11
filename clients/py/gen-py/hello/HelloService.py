@@ -28,6 +28,9 @@ class Iface:
   def ping(self):
     pass
 
+  def zip(self):
+    pass
+
 
 class Client(Iface):
   def __init__(self, iprot, oprot=None):
@@ -91,6 +94,15 @@ class Client(Iface):
     iprot.readMessageEnd()
     return
 
+  def zip(self):
+    self.send_zip()
+
+  def send_zip(self):
+    self._oprot.writeMessageBegin('zip', TMessageType.ONEWAY, self._seqid)
+    args = zip_args()
+    args.write(self._oprot)
+    self._oprot.writeMessageEnd()
+    self._oprot.trans.flush()
 
 class Processor(Iface, TProcessor):
   def __init__(self, handler):
@@ -98,6 +110,7 @@ class Processor(Iface, TProcessor):
     self._processMap = {}
     self._processMap["sayHello"] = Processor.process_sayHello
     self._processMap["ping"] = Processor.process_ping
+    self._processMap["zip"] = Processor.process_zip
 
   def process(self, iprot, oprot):
     (name, type, seqid) = iprot.readMessageBegin()
@@ -135,6 +148,13 @@ class Processor(Iface, TProcessor):
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
+
+  def process_zip(self, seqid, iprot, oprot):
+    args = zip_args()
+    args.read(iprot)
+    iprot.readMessageEnd()
+    self._handler.zip()
+    return
 
 
 # HELPER FUNCTIONS AND STRUCTURES
@@ -340,6 +360,52 @@ class ping_result:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('ping_result')
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __hash__(self):
+    value = 17
+    return value
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class zip_args:
+
+  thrift_spec = (
+  )
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('zip_args')
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 

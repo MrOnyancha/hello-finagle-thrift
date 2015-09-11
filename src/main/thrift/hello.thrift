@@ -6,5 +6,6 @@ struct HelloMsg {
 
 service HelloService {
   HelloMsg sayHello(1:HelloMsg msg),
-  void ping()
+  void ping(),
+  oneway void zip()
 }

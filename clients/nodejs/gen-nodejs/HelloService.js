@@ -175,6 +175,62 @@ HelloService_ping_result.prototype.write = function(output) {
   return;
 };
 
+HelloService_zip_args = function(args) {
+};
+HelloService_zip_args.prototype = {};
+HelloService_zip_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+HelloService_zip_args.prototype.write = function(output) {
+  output.writeStructBegin('HelloService_zip_args');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+HelloService_zip_result = function(args) {
+};
+HelloService_zip_result.prototype = {};
+HelloService_zip_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+HelloService_zip_result.prototype.write = function(output) {
+  output.writeStructBegin('HelloService_zip_result');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 HelloServiceClient = exports.Client = function(output, pClass) {
     this.output = output;
     this.pClass = pClass;
@@ -274,6 +330,33 @@ HelloServiceClient.prototype.recv_ping = function(input,mtype,rseqid) {
 
   callback(null)
 };
+HelloServiceClient.prototype.zip = function(callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_zip();
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_zip();
+  }
+};
+
+HelloServiceClient.prototype.send_zip = function() {
+  var output = new this.pClass(this.output);
+  output.writeMessageBegin('zip', Thrift.MessageType.ONEWAY, this.seqid());
+  var args = new HelloService_zip_args();
+  args.write(output);
+  output.writeMessageEnd();
+  return this.output.flush();
+};
 HelloServiceProcessor = exports.Processor = function(handler) {
   this._handler = handler
 }
@@ -350,5 +433,12 @@ HelloServiceProcessor.prototype.process_ping = function(seqid, input, output) {
       output.flush();
     });
   }
+}
+
+HelloServiceProcessor.prototype.process_zip = function(seqid, input, output) {
+  var args = new HelloService_zip_args();
+  args.read(input);
+  input.readMessageEnd();
+  this._handler.zip()
 }
 

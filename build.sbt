@@ -10,7 +10,8 @@ resolvers += "twitter" at "https://maven.twttr.com/"
 libraryDependencies ++= Seq(
   "com.twitter" %% "finagle-thriftmux" % finagleVersion,
   "com.twitter" %% "finagle-serversets" % finagleVersion,
-  "com.twitter" %% "scrooge-core" % "4.0.0"
+  "com.twitter" %% "scrooge-core" % "4.0.0",
+  "org.apache.thrift" % "libthrift" % "0.9.2"
 )
 
 scalacOptions ++= Seq(

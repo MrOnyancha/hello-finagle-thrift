@@ -40,6 +40,13 @@ module HelloService
       return
     end
 
+    def zip()
+      send_zip()
+    end
+
+    def send_zip()
+      send_oneway_message('zip', Zip_args)
+    end
   end
 
   class Processor
@@ -57,6 +64,12 @@ module HelloService
       result = Ping_result.new()
       @handler.ping()
       write_result(result, oprot, 'ping', seqid)
+    end
+
+    def process_zip(seqid, iprot, oprot)
+      args = read_args(iprot, Zip_args)
+      @handler.zip()
+      return
     end
 
   end
@@ -111,6 +124,36 @@ module HelloService
   end
 
   class Ping_result
+    include ::Thrift::Struct, ::Thrift::Struct_Union
+
+    FIELDS = {
+
+    }
+
+    def struct_fields; FIELDS; end
+
+    def validate
+    end
+
+    ::Thrift::Struct.generate_accessors self
+  end
+
+  class Zip_args
+    include ::Thrift::Struct, ::Thrift::Struct_Union
+
+    FIELDS = {
+
+    }
+
+    def struct_fields; FIELDS; end
+
+    def validate
+    end
+
+    ::Thrift::Struct.generate_accessors self
+  end
+
+  class Zip_result
     include ::Thrift::Struct, ::Thrift::Struct_Union
 
     FIELDS = {

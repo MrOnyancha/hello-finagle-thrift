@@ -23,5 +23,6 @@ try:
     client.ping()
     msg = client.sayHello(HelloMsg(text))
     print(msg)
+    client.zip()
 finally:
     transport.close()

@@ -30,5 +30,10 @@ object HelloServiceImpl {
       logger.info("ping called")
       Future.Unit
     }
+
+    override def zip(): Future[Unit] = {
+      logger.info("zip called")
+      Future.Unit
+    }
   }
 }

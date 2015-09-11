@@ -30,9 +30,9 @@ HelloClient.prototype.close = function() {
 
 HelloClient.prototype.ping = function(callback) {
   var client = thrift.createClient(HelloService, this.connection);
-  client.ping(function(ping_err) {
-    if (ping_err) {
-      return callback(ping_err);
+  client.ping(function(err) {
+    if (err) {
+      return callback(err);
     } else {
       return callback(null, 'ok');
     }
@@ -45,3 +45,9 @@ HelloClient.prototype.sayHello = function(name, callback) {
     return err != null ? callback(err) : callback(null, response);
   });
 };
+
+HelloClient.prototype.zip = function() {
+  var client = thrift.createClient(HelloService, this.connection);
+  return client.zip(function(){});
+};
+
