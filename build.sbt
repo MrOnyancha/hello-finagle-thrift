@@ -44,6 +44,4 @@ mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
   }
 }
 
-com.twitter.scrooge.ScroogeSBT.newSettings
-
 Revolver.settings
