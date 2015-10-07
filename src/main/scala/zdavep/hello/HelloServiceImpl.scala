@@ -21,7 +21,7 @@ object HelloServiceImpl {
      */
     override def sayHello(msg: HelloMsg): Future[HelloMsg] = Future.value {
       Trace.traceService("hello", "sayHello") {
-        val sleepMs = 100
+        val sleepMs = 100L
         Thread.sleep(sleepMs)
         logger.info(s"Server received message: ${msg.name}")
         HelloMsg(s"Hello, ${msg.name}")
