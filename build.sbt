@@ -3,7 +3,7 @@ version := "0.2"
 organization := "zdavep"
 scalaVersion := "2.11.7"
 
-val finagleVersion = "6.28.0"
+val finagleVersion = "6.29.0"
 
 resolvers += "twitter" at "https://maven.twttr.com/"
 
