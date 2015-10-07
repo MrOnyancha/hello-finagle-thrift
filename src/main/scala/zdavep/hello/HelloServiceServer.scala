@@ -1,6 +1,7 @@
 package zdavep.hello
 
 import com.twitter.finagle.ThriftMux
+import com.twitter.finagle.tracing.Trace
 import com.twitter.util.Await
 import org.slf4j.LoggerFactory
 
@@ -18,6 +19,9 @@ object HelloServiceServer extends App {
 
   logger.info("Starting HelloService server...")
   val server = ThriftMux.server.serveIface(serverHost, HelloServiceImpl())
+
+  logger.info("Enable tracing...")
+  Trace.enable()
 
   logger.info("Joining ZooKeeper cluster...")
   val _ = ZooKeeperHelper.join(path, serverHost)

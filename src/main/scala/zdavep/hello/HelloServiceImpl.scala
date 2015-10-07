@@ -20,7 +20,7 @@ object HelloServiceImpl {
      * The sayHello service function implementation
      */
     override def sayHello(msg: HelloMsg): Future[HelloMsg] = Future.value {
-      Trace.time("sayHello") {
+      Trace.traceService("hello", "sayHello") {
         val sleepMs = 100
         Thread.sleep(sleepMs)
         logger.info(s"Server received message: ${msg.name}")
@@ -32,15 +32,17 @@ object HelloServiceImpl {
      * The ping service function implementation
      */
     override def ping(): Future[Unit] = {
-      Trace.record("ping called")
-      logger.info("ping called")
-      Future.Unit
+      Trace.traceService("hello", "ping") {
+        logger.info("ping called")
+        Future.Unit
+      }
     }
 
     override def zip(): Future[Unit] = {
-      Trace.record("zip called")
-      logger.info("zip called")
-      Future.Unit
+      Trace.traceService("hello", "zip") {
+        logger.info("zip called")
+        Future.Unit
+      }
     }
   }
 }
