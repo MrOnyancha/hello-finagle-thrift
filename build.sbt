@@ -12,7 +12,7 @@ libraryDependencies ++= Seq(
   "com.twitter" %% "finagle-serversets" % finagleVersion,
   "com.twitter" % "finagle-zipkin_2.11" % finagleVersion,
   "com.twitter" %% "scrooge-core" % "4.1.0",
-  "org.apache.thrift" % "libthrift" % "0.9.2"
+  "org.apache.thrift" % "libthrift" % "0.9.3"
 )
 
 scalacOptions ++= Seq(
