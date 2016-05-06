@@ -1,9 +1,9 @@
 name := "hello-finagle-thrift"
-version := "0.2"
+version := "0.3"
 organization := "zdavep"
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.8"
 
-val finagleVersion = "6.33.0"
+val finagleVersion = "6.35.0"
 
 resolvers += "twitter" at "https://maven.twttr.com/"
 
